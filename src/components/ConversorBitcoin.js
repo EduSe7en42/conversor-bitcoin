@@ -40,7 +40,7 @@ export default class ConversorBitcoin extends React.Component {
         
         if (this.props.moeda === "BRL"){        
             this.setState({
-                valorSaida: parseFloat(this.state.valorEntrada * this.state.valorBitcoin).toFixed(2)               
+                valorSaida: parseFloat(this.state.valorEntrada * this.state.valorBitcoin).toFixed(2) 
             });
         } else if (this.props.moeda === "BTC") {
             this.setState({
@@ -52,6 +52,7 @@ export default class ConversorBitcoin extends React.Component {
     render() {
         var estadoMoeda = (this.props.moeda === "BRL" ? "Real" : "Bitcoin");
         var estadoSigla = (this.props.moeda === "BRL" ? '₿' : 'R$');
+
         return (
             <div id="moduloPrincipal" className="ConversorBitcoin">
                 <h1>A moeda corrente é o {estadoMoeda}</h1>
