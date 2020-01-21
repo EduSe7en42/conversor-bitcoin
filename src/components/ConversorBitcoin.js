@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './ConversorBitcoin.css';
 
-export default class ConversorBitcoin extends React.Component {
+export default class ConversorBitcoin extends Component {
     constructor(props) {
         super(props);
 
@@ -16,6 +16,7 @@ export default class ConversorBitcoin extends React.Component {
             this.setState({
                 nomeMoeda: "Real"
             });
+            
         } else if (this.props.moeda === "BTC") {
             this.setState({
                 nomeMoeda: "Bitcoin"
@@ -30,23 +31,23 @@ export default class ConversorBitcoin extends React.Component {
 
         fetch(url)
             .then(res => {
-                return res.json()
+                return res.json();
             })
             .then(json => {
-                this.setState({
-                    valorBitcoin: parseFloat(json["ticker"].last)
-                });
-            });
-        
-        if (this.props.moeda === "BRL"){        
-            this.setState({
-                valorSaida: parseFloat(this.state.valorEntrada * this.state.valorBitcoin).toFixed(2) 
-            });
-        } else if (this.props.moeda === "BTC") {
-            this.setState({
-                valorSaida: parseFloat(this.state.valorEntrada / this.state.valorBitcoin)              
-            });
-        }
+                const valorBitcoin = parseFloat(json["ticker"].last);                
+
+                if (this.props.moeda === "BRL"){        
+                    this.setState({
+                        valorSaida: parseFloat(this.state.valorEntrada * valorBitcoin).toFixed(2),
+                        valorBitcoin: valorBitcoin 
+                    });
+                } else if (this.props.moeda === "BTC") {
+                    this.setState({
+                        valorSaida: parseFloat(this.state.valorEntrada / valorBitcoin),
+                        valorBitcoin: valorBitcoin              
+                    });
+                }
+            });        
     }
 
     render() {
