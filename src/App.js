@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css';
+import './App.sass';
 import { Link } from 'react-router-dom';
 import ConversorBitcoin from './components/conversor-bitcoin/ConversorBitcoin';
 

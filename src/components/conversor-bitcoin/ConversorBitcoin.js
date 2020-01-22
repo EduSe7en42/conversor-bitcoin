@@ -1,5 +1,5 @@
 import React, { Component } from 'react' 
-import './ConversorBitcoin.css' 
+import './ConversorBitcoin.sass' 
 
 export default class ConversorBitcoin extends Component {
     constructor(props) {
