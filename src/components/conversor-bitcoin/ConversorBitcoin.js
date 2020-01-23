@@ -1,5 +1,6 @@
 import React, { Component } from 'react' 
-import './ConversorBitcoin.sass' 
+import './ConversorBitcoin.sass'
+import { confirmAlert } from 'react-confirm-alert'
 
 export default class ConversorBitcoin extends Component {
     constructor(props) {
@@ -17,29 +18,59 @@ export default class ConversorBitcoin extends Component {
 
         this.conversor = this.conversor.bind(this) 
     }
+
+    modalConfirmacao(value, msg) {
+        const options = {
+                customUI: ({ onClose }) => {
+                    if (value) {
+                        return (
+                            <div className='ModalConfirmacaoSucesso'>
+                                <h1>{msg}</h1>
+                                <button onClick={onClose}>Fechar</button>
+                            </div>
+                        )
+                    } else {
+                        return (
+                            <div className='ModalConfirmacaoErro'>
+                                <h1>{msg}</h1>
+                                <button onClick={onClose}>Fechar</button>
+                            </div>
+                        )
+                    }
+                }
+            }
+
+        confirmAlert(options)
+      }
     
     conversor() {
         const url = "https://www.mercadobitcoin.net/api/BTC/ticker/" 
 
-        fetch(url)
-            .then(res => {
-                return res.json() 
-            })
-            .then(json => {
-                const valorBitcoin = parseFloat(json["ticker"].last)                 
+        try{
+            fetch(url)
+                .then(res => {
+                    return res.json() 
+                })
+                .then(json => {
+                    const valorBitcoin = parseFloat(json["ticker"].last)                 
 
-                if (this.props.moeda === "BRL"){        
-                    this.setState({
-                        valorSaida: parseFloat(this.state.valorEntrada * valorBitcoin).toFixed(2),
-                        valorBitcoin: valorBitcoin 
-                    }) 
-                } else if (this.props.moeda === "BTC") {
-                    this.setState({
-                        valorSaida: parseFloat(this.state.valorEntrada / valorBitcoin),
-                        valorBitcoin: valorBitcoin              
-                    }) 
-                }
-            })         
+                    if (this.props.moeda === "BRL"){        
+                        this.setState({
+                            valorSaida: parseFloat(this.state.valorEntrada * valorBitcoin).toFixed(2),
+                            valorBitcoin: valorBitcoin 
+                        }) 
+                    } else if (this.props.moeda === "BTC") {
+                        this.setState({
+                            valorSaida: parseFloat(this.state.valorEntrada / valorBitcoin),
+                            valorBitcoin: valorBitcoin              
+                        }) 
+                    }
+                })
+
+            this.modalConfirmacao(true, "O resultado foi apresentado com sucesso!")
+        } catch (err) {
+            this.modalConfirmacao(false, "Ocorreu um erro na apresentação do resultado. Tente novamente.")
+        }
     }
 
     render() {

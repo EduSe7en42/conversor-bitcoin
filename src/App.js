@@ -21,6 +21,8 @@ function App() {
       <div class="Rodape">
         <Link to="/sobre">Acessar a página sobre...</Link>
       </div>
+
+      
     </div>
   );
 }
